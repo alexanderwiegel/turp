@@ -3,7 +3,7 @@ library constants;
 import 'package:flutter/material.dart';
 
 const MaterialColor mainColor = Colors.red;
-const Color textColor = Colors.white;
+const Color textColor = Colors.black;
 // const MaterialColor accentColor = Colors.amber;
 
 // Colored print() functions using ANSI escape codes for better debugging
