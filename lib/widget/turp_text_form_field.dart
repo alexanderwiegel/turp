@@ -7,14 +7,16 @@ class TurpTextFormField extends StatefulWidget {
   final String hintText;
   final TextEditingController? controller;
   final TextInputType keyboardType;
+  final bool obscure;
 
   const TurpTextFormField.name({
     Key? key,
     required this.name,
     required this.labelText,
     required this.hintText,
-    this.controller,
-  }) : keyboardType = TextInputType.name,
+    required this.controller,
+    this.obscure = false,
+  })  : keyboardType = TextInputType.name,
         super(key: key);
 
   const TurpTextFormField.email({
@@ -22,8 +24,19 @@ class TurpTextFormField extends StatefulWidget {
     required this.name,
     this.labelText = "Email address",
     this.hintText = "Email",
-    this.controller,
+    required this.controller,
+    this.obscure = false,
   })  : keyboardType = TextInputType.emailAddress,
+        super(key: key);
+
+  const TurpTextFormField.password({
+    Key? key,
+    required this.name,
+    required this.labelText,
+    required this.hintText,
+    required this.controller,
+    this.obscure = true,
+  })  : keyboardType = TextInputType.visiblePassword,
         super(key: key);
   //#endregion
 
@@ -38,11 +51,10 @@ class _TurpTextFormFieldState extends State<TurpTextFormField> {
       key: widget.key,
       controller: widget.controller,
       keyboardType: widget.keyboardType,
+      obscureText: widget.obscure,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
-        hintText: widget.hintText,
-        labelText: widget.labelText
-      ),
+          hintText: widget.hintText, labelText: widget.labelText),
     );
   }
 }

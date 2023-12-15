@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turp/constants.dart';
+import 'package:turp/service/auth.dart';
 import 'package:turp/widget/turp_text_form_field.dart';
 
 class RegistrationForm extends StatefulWidget {
@@ -10,6 +11,25 @@ class RegistrationForm extends StatefulWidget {
 }
 
 class _RegistrationFormState extends State<RegistrationForm> {
+  final AuthService _auth = AuthService();
+  //final _signUpKey = GlobalKey<FormState>();
+
+  // List<Text> signUpErrors = [];
+  // late final Text emailError;
+  // late final Text passwordError;
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   emailError = errorMessage("Please enter a valid email address");
+  //   passwordError =
+  //       errorMessage("Passwords must be at least 6 characters long");
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,23 +37,53 @@ class _RegistrationFormState extends State<RegistrationForm> {
       child: Form(
         child: Column(
           children: [
-            const TurpTextFormField.name(
-              name: "username",
-              labelText: "Full name",
-              hintText: "e.g. Max Mustermann",
-            ),
-            const TurpTextFormField.email(
+            TurpTextFormField.email(
               name: "email",
               labelText: "Email",
               hintText: "e.g. max@gmail.com",
+              controller: emailController,
+            ),
+            TurpTextFormField.password(
+              name: "password",
+              labelText: "Password",
+              hintText: "",
+              controller: passwordController,
             ),
             TextButton(
-              onPressed: () => printInfo("Submit button pressed"),
+              onPressed: () async {
+                printInfo("Submit button pressed");
+                await _auth.registerWithEmailAndPassword(
+                    emailController.text, passwordController.text);
+              },
               child: const Text("Submit"),
             ),
+            // showErrors(signUpErrors)
           ],
         ),
       ),
     );
   }
+
+  // Text errorMessage(String text) {
+  //   return Text(
+  //     text,
+  //     textAlign: TextAlign.center,
+  //     style: const TextStyle(color: Colors.amber),
+  //   );
+  // }
+  //
+  // Widget showErrors(List<Text> errors) {
+  //   return Visibility(
+  //     visible: errors.isNotEmpty,
+  //     child: Padding(
+  //       padding: const EdgeInsets.only(top: 10),
+  //       child: Column(children: errors),
+  //     ),
+  //   );
+  // }
+  //
+  // void validate(bool condition, List<Text> errors, Text error) {
+  //   errors.remove(error);
+  //   if (condition) setState(() => errors.add(error));
+  // }
 }

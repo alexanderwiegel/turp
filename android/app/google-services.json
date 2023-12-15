@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "457143368718",
+    "project_id": "turkish-residence-permit",
+    "storage_bucket": "turkish-residence-permit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457143368718:android:13719dce5f56e838c8d05f",
+        "android_client_info": {
+          "package_name": "com.turp.app.turp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZJivkwEoQJgoBuFmwJ5EavlOc6T6iRJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
