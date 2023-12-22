@@ -16,9 +16,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Text(
-              "Welcome",
-              style: TextStyle(color: Colors.black),
+            child: Column(
+              children: [
+                Image(
+                  image: AssetImage("assets/turkish_flag.png"),
+                  width: 150.0,
+                  height: 150.0,
+                ),
+                Text(
+                  "Welcome",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
             ),
           ),
           RegistrationForm()
