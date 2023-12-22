@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:turp/constants.dart';
 import 'package:turp/service/auth.dart';
+import 'package:turp/widget/turp_button.dart';
 import 'package:turp/widget/turp_text_form_field.dart';
 
 class RegistrationForm extends StatefulWidget {
@@ -43,20 +44,26 @@ class _RegistrationFormState extends State<RegistrationForm> {
               hintText: "e.g. max@gmail.com",
               controller: emailController,
             ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             TurpTextFormField.password(
               name: "password",
               labelText: "Password",
-              hintText: "",
+              hintText: "Enter your password",
               controller: passwordController,
             ),
-            TextButton(
-              onPressed: () async {
-                printInfo("Submit button pressed");
-                await _auth.registerWithEmailAndPassword(
-                    emailController.text, passwordController.text);
-              },
-              child: const Text("Submit"),
-            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+
+            SizedBox(
+              width: double.infinity,
+              child: TurpButton.primary(
+                label: "Register",
+                onPressed: () async {
+                  printInfo("Submit button pressed");
+                  await _auth.registerWithEmailAndPassword(
+                      emailController.text, passwordController.text);
+                },
+              ),
+            )
             // showErrors(signUpErrors)
           ],
         ),

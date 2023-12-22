@@ -18,14 +18,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Center(
             child: Column(
               children: [
-                Image(
-                  image: AssetImage("assets/turkish_flag.png"),
-                  width: 150.0,
-                  height: 150.0,
+                Image(image: AssetImage("assets/turkish_flag.png")),
+                Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                Text(
+                  "Welcome to Turp",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                  ),
                 ),
                 Text(
-                  "Welcome",
-                  style: TextStyle(color: Colors.black),
+                  "Create an account to start your application",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 18,
+                  ),
                 ),
               ],
             ),
