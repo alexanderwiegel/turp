@@ -8,6 +8,7 @@ class TurpTextFormField extends StatefulWidget {
   final String labelText;
   final String hintText;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
   final TextInputType keyboardType;
   bool obscure = false;
 
@@ -19,6 +20,7 @@ class TurpTextFormField extends StatefulWidget {
     required this.labelText,
     required this.hintText,
     required this.controller,
+    this.validator,
     this.obscure = false,
   })  : keyboardType = TextInputType.name,
         super(key: key);
@@ -31,6 +33,7 @@ class TurpTextFormField extends StatefulWidget {
     this.labelText = "Email address",
     this.hintText = "Email",
     required this.controller,
+    this.validator,
     this.obscure = false,
   })  : keyboardType = TextInputType.emailAddress,
         super(key: key);
@@ -43,6 +46,7 @@ class TurpTextFormField extends StatefulWidget {
     required this.labelText,
     required this.hintText,
     required this.controller,
+    required this.validator,
     this.obscure = true,
   })  : keyboardType = TextInputType.visiblePassword,
         super(key: key);
@@ -58,6 +62,7 @@ class _TurpTextFormFieldState extends State<TurpTextFormField> {
     return TextFormField(
       key: widget.key,
       controller: widget.controller,
+      validator: widget.validator,
       keyboardType: widget.keyboardType,
       obscureText: widget.obscure,
       textCapitalization: TextCapitalization.sentences,

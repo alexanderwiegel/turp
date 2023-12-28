@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:turp/constants.dart';
 import 'package:turp/service/auth.dart';
+import 'package:turp/service/validator.dart';
 import 'package:turp/widget/turp_button.dart';
 import 'package:turp/widget/turp_text_form_field.dart';
 
@@ -21,6 +22,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController repeatPasswordController = TextEditingController();
 
   // @override
   // void initState() {
@@ -36,37 +38,43 @@ class _RegistrationFormState extends State<RegistrationForm> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Form(
-        child: Column(
-          children: [
-            TurpTextFormField.email(
-              name: "email",
-              labelText: "Email",
-              hintText: "e.g. max@gmail.com",
-              controller: emailController,
+        child: Column(children: [
+          TurpTextFormField.email(
+            name: "email",
+            labelText: "Email",
+            hintText: "e.g. max@gmail.com",
+            controller: emailController,
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+          TurpTextFormField.password(
+            name: "password",
+            labelText: "Password",
+            hintText: "Enter your password",
+            controller: passwordController,
+            validator: (password) => PasswordValidator.validate(password),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+          TurpTextFormField.password(
+            name: 'Re-enter password',
+            labelText: 'Confirm password',
+            hintText: 'Confirm password',
+            controller: repeatPasswordController,
+            validator: (repeatedPassword) => RepeatedPasswordValidator.validate(
+                passwordController.text, repeatedPassword),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+          SizedBox(
+            width: double.infinity,
+            child: TurpButton.primary(
+              label: "Register",
+              onPressed: () async {
+                printInfo("Register button pressed");
+                await _auth.registerWithEmailAndPassword(
+                    emailController.text, passwordController.text);
+              },
             ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            TurpTextFormField.password(
-              name: "password",
-              labelText: "Password",
-              hintText: "Enter your password",
-              controller: passwordController,
-            ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-
-            SizedBox(
-              width: double.infinity,
-              child: TurpButton.primary(
-                label: "Register",
-                onPressed: () async {
-                  printInfo("Submit button pressed");
-                  await _auth.registerWithEmailAndPassword(
-                      emailController.text, passwordController.text);
-                },
-              ),
-            )
-            // showErrors(signUpErrors)
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
