@@ -14,37 +14,39 @@ class AuthFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          description,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 15,
-          ),
-        ),
-        const SizedBox(width: 5.0),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                    destination == "Login"
-                        ? const LoginScreen()
-                        : const RegistrationScreen(),
-                ),
-                (route) => false);
-          },
-          child: Text(
-            "$destination here",
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            description,
             style: const TextStyle(
-              color: Colors.red,
+              color: Colors.black,
               fontSize: 15,
             ),
           ),
-        ),
-      ],
+          const SizedBox(width: 5.0),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => destination == "Login"
+                        ? const LoginScreen()
+                        : const RegistrationScreen(),
+                  ),
+                  (route) => false);
+            },
+            child: Text(
+              "$destination here",
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
