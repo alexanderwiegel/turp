@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:turp/view/auth/auth_footer.dart';
 import 'package:turp/view/auth/auth_header.dart';
-import 'package:turp/view/auth/registration/ui/registration_form.dart';
+import 'package:turp/view/auth/registration/registration_form.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});

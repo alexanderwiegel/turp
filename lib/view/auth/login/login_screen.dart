@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:turp/view/auth/auth_footer.dart';
 import 'package:turp/view/auth/auth_header.dart';
-import 'package:turp/view/auth/login/ui/login_form.dart';
+import 'package:turp/view/auth/login/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,16 +14,22 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AuthHeader(
-            title: "Welcome back to Turp",
-            subtitle: "Login to continue your application",
+          KeyboardVisibilityBuilder(
+            builder: (context, isKeyboardVisible) {
+              return isKeyboardVisible
+                  ? const SizedBox.shrink()
+                  : const AuthHeader(
+                      title: "Welcome back to Turp",
+                      subtitle: "Login to continue your application",
+                    );
+            },
           ),
-          LoginForm(),
-          AuthFooter(
+          const LoginForm(),
+          const AuthFooter(
             description: "Don't have an account yet?",
             destination: "Register",
           ),
