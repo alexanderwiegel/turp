@@ -14,7 +14,7 @@ class RegistrationForm extends StatefulWidget {
 
 class _RegistrationFormState extends State<RegistrationForm> {
   final AuthService _auth = AuthService();
-  //final _signUpKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   // List<Text> signUpErrors = [];
   // late final Text emailError;
@@ -38,12 +38,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Form(
+        key: _formKey,
         child: Column(children: [
           TurpTextFormField.email(
             name: "email",
             labelText: "Email",
             hintText: "e.g. max@gmail.com",
             controller: emailController,
+            validator: EmailValidator.validate,
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           TurpTextFormField.password(
@@ -51,7 +53,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
             labelText: "Password",
             hintText: "Enter your password",
             controller: passwordController,
-            validator: (password) => PasswordValidator.validate(password),
+            validator: PasswordValidator.validate,
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           TurpTextFormField.password(
@@ -68,9 +70,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
             child: TurpButton.primary(
               label: "Register",
               onPressed: () async {
-                printInfo("Register button pressed");
-                await _auth.registerWithEmailAndPassword(
-                    emailController.text, passwordController.text);
+                printInfo("Register button pressed, validating form fields");
+                _formKey.currentState!.save();
+                if (_formKey.currentState!.validate()) {
+                  printSuccess("Successfully validated all form fields");
+                  await _auth.registerWithEmailAndPassword(
+                      emailController.text, passwordController.text);
+                }
               },
             ),
           ),

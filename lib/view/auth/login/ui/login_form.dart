@@ -14,7 +14,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final AuthService _auth = AuthService();
-  //final _signInKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   // List<Text> signInErrors = [];
   // late final Text emailError;
@@ -37,12 +37,14 @@ class _LoginFormState extends State<LoginForm> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Form(
+        key: _formKey,
         child: Column(children: [
           TurpTextFormField.email(
             name: "email",
             labelText: "Email",
             hintText: "e.g. max@gmail.com",
             controller: emailController,
+            validator: EmailValidator.validate,
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           TurpTextFormField.password(
@@ -50,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
             labelText: "Password",
             hintText: "Enter your password",
             controller: passwordController,
-            validator: (password) => PasswordValidator.validate(password),
+            validator: PasswordValidator.validate,
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           SizedBox(
@@ -58,9 +60,13 @@ class _LoginFormState extends State<LoginForm> {
             child: TurpButton.primary(
               label: "Login",
               onPressed: () async {
-                printInfo("Login button pressed");
-                await _auth.signInWithEmailAndPassword(
-                    emailController.text, passwordController.text);
+                printInfo("Login button pressed, validating form fields");
+                _formKey.currentState!.save();
+                if (_formKey.currentState!.validate()) {
+                  printSuccess("Successfully validated all form fields");
+                  await _auth.signInWithEmailAndPassword(
+                      emailController.text, passwordController.text);
+                }
               },
             ),
           ),
