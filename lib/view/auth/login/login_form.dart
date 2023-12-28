@@ -26,7 +26,6 @@ class _LoginFormState extends State<LoginForm> {
         key: _formKey,
         child: Column(children: [
           TurpTextFormField.email(
-            name: "email",
             labelText: "Email",
             hintText: "e.g. max@gmail.com",
             controller: emailController,
@@ -34,7 +33,6 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           TurpTextFormField.password(
-            name: "password",
             labelText: "Password",
             hintText: "Enter your password",
             controller: passwordController,

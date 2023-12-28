@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class TurpTextFormField extends StatefulWidget {
   //#region fields and constructors
-  final String name;
   final IconData leadingIcon;
   final IconData? trailingIcon;
   final String labelText;
@@ -14,7 +13,6 @@ class TurpTextFormField extends StatefulWidget {
 
   TurpTextFormField.name({
     Key? key,
-    required this.name,
     this.leadingIcon = Icons.person,
     this.trailingIcon,
     required this.labelText,
@@ -27,7 +25,6 @@ class TurpTextFormField extends StatefulWidget {
 
   TurpTextFormField.email({
     Key? key,
-    required this.name,
     this.leadingIcon = Icons.email,
     this.trailingIcon,
     this.labelText = "Email address",
@@ -40,7 +37,6 @@ class TurpTextFormField extends StatefulWidget {
 
   TurpTextFormField.password({
     Key? key,
-    required this.name,
     this.leadingIcon = Icons.lock,
     this.trailingIcon = Icons.visibility,
     required this.labelText,
