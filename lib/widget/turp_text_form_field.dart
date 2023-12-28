@@ -18,7 +18,7 @@ class TurpTextFormField extends StatefulWidget {
     required this.labelText,
     required this.hintText,
     required this.controller,
-    this.validator,
+    required this.validator,
     this.obscure = false,
   })  : keyboardType = TextInputType.name,
         super(key: key);
@@ -45,6 +45,18 @@ class TurpTextFormField extends StatefulWidget {
     required this.validator,
     this.obscure = true,
   })  : keyboardType = TextInputType.visiblePassword,
+        super(key: key);
+
+  TurpTextFormField.date({
+    Key? key,
+    this.leadingIcon = Icons.date_range,
+    this.trailingIcon,
+    required this.labelText,
+    required this.hintText,
+    required this.controller,
+    required this.validator,
+    this.obscure = false,
+  })  : keyboardType = TextInputType.datetime,
         super(key: key);
   //#endregion
 
