@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:turp/constants.dart';
 import 'package:turp/service/auth.dart';
 import 'package:turp/service/validator.dart';
+import 'package:turp/view/application/step1.dart';
 import 'package:turp/widget/turp_button.dart';
 import 'package:turp/widget/turp_text_form_field.dart';
 
@@ -48,8 +49,15 @@ class _LoginFormState extends State<LoginForm> {
                 _formKey.currentState!.save();
                 if (_formKey.currentState!.validate()) {
                   printSuccess("Successfully validated all form fields");
-                  await _auth.signInWithEmailAndPassword(
+                  final result = await _auth.signInWithEmailAndPassword(
                       emailController.text, passwordController.text);
+                  if (result != null) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const Step1(),
+                        ),
+                        (route) => false);
+                  }
                 }
               },
             ),

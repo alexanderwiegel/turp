@@ -19,7 +19,8 @@ class AuthService {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       final User? user = result.user;
-      await user!.sendEmailVerification();
+      printSuccess("User: $user");
+      // await user!.sendEmailVerification();
       return _userFromFirebaseUser(user);
     } catch (e) {
       printError(e.toString());
@@ -33,6 +34,7 @@ class AuthService {
       final UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User? user = result.user;
+      printSuccess("User: $user");
       return _userFromFirebaseUser(user);
     } catch (e) {
       printError(e.toString());
