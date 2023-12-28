@@ -5,32 +5,19 @@ import 'package:turp/service/validator.dart';
 import 'package:turp/widget/turp_button.dart';
 import 'package:turp/widget/turp_text_form_field.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<RegistrationForm> createState() => _RegistrationFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _RegistrationFormState extends State<RegistrationForm> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-
-  // List<Text> signInErrors = [];
-  // late final Text emailError;
-  // late final Text passwordError;
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   emailError = errorMessage("Please enter a valid email address");
-  //   passwordError =
-  //       errorMessage("Passwords must be at least 6 characters long");
-  // }
+  TextEditingController repeatPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +42,25 @@ class _LoginFormState extends State<LoginForm> {
             validator: PasswordValidator.validate,
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+          TurpTextFormField.password(
+            name: 'Re-enter password',
+            labelText: 'Confirm password',
+            hintText: 'Confirm password',
+            controller: repeatPasswordController,
+            validator: (repeatedPassword) => RepeatedPasswordValidator.validate(
+                passwordController.text, repeatedPassword),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           SizedBox(
             width: double.infinity,
             child: TurpButton.primary(
-              label: "Login",
+              label: "Register",
               onPressed: () async {
-                printInfo("Login button pressed, validating form fields");
+                printInfo("Register button pressed, validating form fields");
                 _formKey.currentState!.save();
                 if (_formKey.currentState!.validate()) {
                   printSuccess("Successfully validated all form fields");
-                  await _auth.signInWithEmailAndPassword(
+                  await _auth.registerWithEmailAndPassword(
                       emailController.text, passwordController.text);
                 }
               },
@@ -74,27 +70,4 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
-
-// Text errorMessage(String text) {
-//   return Text(
-//     text,
-//     textAlign: TextAlign.center,
-//     style: const TextStyle(color: Colors.amber),
-//   );
-// }
-//
-// Widget showErrors(List<Text> errors) {
-//   return Visibility(
-//     visible: errors.isNotEmpty,
-//     child: Padding(
-//       padding: const EdgeInsets.only(top: 10),
-//       child: Column(children: errors),
-//     ),
-//   );
-// }
-//
-// void validate(bool condition, List<Text> errors, Text error) {
-//   errors.remove(error);
-//   if (condition) setState(() => errors.add(error));
-// }
 }
