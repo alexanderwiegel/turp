@@ -1,10 +1,13 @@
+import 'package:turp/constants.dart';
+
 class EmailValidator {
   static String? validate(String? value) {
+    printInfo(value);
     bool emailValid =
-        RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                r"{0,253}[a-zA-Z0-9])?)*$")
-            .hasMatch(value!);
+        // from https://regex101.com/r/lHs2R3/1
+        RegExp(r"^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$").hasMatch(value!);
+    // from https://emailregex.com/
+    // RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)").hasMatch(value!);
     if (value.isEmpty) {
       return 'Please enter an email address';
     } else if (!emailValid) {
@@ -36,7 +39,7 @@ class RepeatedPasswordValidator {
     } else if (password.length < 6) {
       return 'Your password must be at least 6 characters long';
     } else if (password != repeatedPassword) {
-      return 'Your password doesn\'t match';
+      return 'Your passwords don\'t match';
     }
     return null;
   }
