@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turp/model/turp_user.dart';
 import 'package:turp/service/validator.dart';
 import 'package:turp/view/application/application_step.dart';
 import 'package:turp/widget/turp_dropdown_button.dart';
@@ -70,5 +71,25 @@ class _Step1State extends ApplicationStepState<Step1> {
       ),
       const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
     ];
+  }
+
+  @override
+  Future saveData(auth) async {
+    TurpUser.firstName = firstNameController.text;
+    TurpUser.lastName = lastNameController.text;
+    TurpUser.birthdate = dateController.text;
+    TurpUser.fathersName = fathersNameController.text;
+    TurpUser.mothersName = mothersNameController.text;
+    TurpUser.gender = gender;
+    await auth.updateUser(
+      {
+        "firstName": firstNameController.text,
+        "lastName": lastNameController.text,
+        "birthdate": dateController.text,
+        "fathersName": fathersNameController.text,
+        "mothersName": mothersNameController.text,
+        "gender": gender,
+      },
+    );
   }
 }

@@ -53,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAZJivkwEoQJgoBuFmwJ5EavlOc6T6iRJI',
-    appId: '1:457143368718:android:13719dce5f56e838c8d05f',
-    messagingSenderId: '457143368718',
-    projectId: 'turkish-residence-permit',
-    storageBucket: 'turkish-residence-permit.appspot.com',
-  );
+      apiKey: 'AIzaSyAZJivkwEoQJgoBuFmwJ5EavlOc6T6iRJI',
+      appId: '1:457143368718:android:13719dce5f56e838c8d05f',
+      messagingSenderId: '457143368718',
+      projectId: 'turkish-residence-permit',
+      storageBucket: 'turkish-residence-permit.appspot.com',
+      databaseURL:
+          "https://turkish-residence-permit-default-rtdb.europe-west1.firebasedatabase.app");
 }

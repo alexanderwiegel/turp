@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turp/service/auth.dart';
 import 'package:turp/widget/turp_button.dart';
 
 abstract class ApplicationStep extends StatefulWidget {
@@ -11,11 +12,14 @@ abstract class ApplicationStep extends StatefulWidget {
 }
 
 class ApplicationStepState<T extends ApplicationStep> extends State<T> {
+  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   late final List<Widget> fields;
 
   void setFields(List<Widget> fields) => this.fields = fields;
+
+  Future saveData(AuthService auth) async => throw UnimplementedError();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class ApplicationStepState<T extends ApplicationStep> extends State<T> {
                   onPressed: () async {
                     _formKey.currentState!.save();
                     if (_formKey.currentState!.validate()) {
-                      //
+                      await saveData(_auth);
                     }
                   },
                 ),
