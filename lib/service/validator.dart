@@ -78,3 +78,12 @@ class GenderValidator {
     return null;
   }
 }
+
+class CountryValidator {
+  static String? validate(String? value) {
+    if (value!.isEmpty) {
+      return 'Please select a country';
+    }
+    return null;
+  }
+}

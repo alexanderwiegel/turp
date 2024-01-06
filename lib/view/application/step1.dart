@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:turp/model/turp_user.dart';
 import 'package:turp/service/validator.dart';
@@ -18,6 +19,7 @@ class _Step1State extends ApplicationStepState<Step1> {
   TextEditingController fathersNameController = TextEditingController();
   TextEditingController mothersNameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
+  TextEditingController nationalityController = TextEditingController();
   late String gender;
 
   @override
@@ -70,6 +72,21 @@ class _Step1State extends ApplicationStepState<Step1> {
         validator: GenderValidator.validate,
       ),
       const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+      InkWell(
+        onTap: () => showCountryPicker(
+          context: context,
+          onSelect: (Country country) => setState(() => nationalityController
+              .text = "${country.flagEmoji} ${country.name}"),
+        ),
+        child: IgnorePointer(
+          child: TurpTextFormField.country(
+            labelText: "Nationality",
+            controller: nationalityController,
+            validator: CountryValidator.validate,
+          ),
+        ),
+      ),
+      const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
     ];
   }
 
@@ -81,6 +98,7 @@ class _Step1State extends ApplicationStepState<Step1> {
     TurpUser.fathersName = fathersNameController.text;
     TurpUser.mothersName = mothersNameController.text;
     TurpUser.gender = gender;
+    TurpUser.country = nationalityController.text;
     await auth.updateUser(
       {
         "firstName": firstNameController.text,
@@ -89,6 +107,7 @@ class _Step1State extends ApplicationStepState<Step1> {
         "fathersName": fathersNameController.text,
         "mothersName": mothersNameController.text,
         "gender": gender,
+        "country": nationalityController.text,
       },
     );
   }
