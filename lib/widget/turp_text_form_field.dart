@@ -81,7 +81,6 @@ class _TurpTextFormFieldState extends State<TurpTextFormField> {
       validator: widget.validator,
       keyboardType: widget.keyboardType,
       obscureText: widget.obscure,
-      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         hintText: widget.hintText,
         labelText: widget.labelText,
