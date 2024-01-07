@@ -20,6 +20,7 @@ class _Step1State extends ApplicationStepState<Step1> {
   TextEditingController mothersNameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
+  late String nationality;
   late String gender;
 
   @override
@@ -75,8 +76,10 @@ class _Step1State extends ApplicationStepState<Step1> {
       InkWell(
         onTap: () => showCountryPicker(
           context: context,
-          onSelect: (Country country) => setState(() => nationalityController
-              .text = "${country.flagEmoji} ${country.name}"),
+          onSelect: (Country country) => setState(() {
+            nationality = country.name;
+            nationalityController.text = "${country.flagEmoji} $nationality";
+          }),
         ),
         child: IgnorePointer(
           child: TurpTextFormField.country(
@@ -98,7 +101,7 @@ class _Step1State extends ApplicationStepState<Step1> {
     TurpUser.fathersName = fathersNameController.text;
     TurpUser.mothersName = mothersNameController.text;
     TurpUser.gender = gender;
-    TurpUser.country = nationalityController.text;
+    TurpUser.country = nationality;
     await auth.updateUser(
       {
         "firstName": firstNameController.text,
@@ -107,7 +110,7 @@ class _Step1State extends ApplicationStepState<Step1> {
         "fathersName": fathersNameController.text,
         "mothersName": mothersNameController.text,
         "gender": gender,
-        "country": nationalityController.text,
+        "country": nationality,
       },
     );
   }
