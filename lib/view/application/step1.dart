@@ -21,6 +21,7 @@ class _Step1State extends ApplicationStepState<Step1> {
   TextEditingController dateController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
   late String nationality;
+  late String flag;
   late String gender;
 
   @override
@@ -78,7 +79,8 @@ class _Step1State extends ApplicationStepState<Step1> {
           context: context,
           onSelect: (Country country) => setState(() {
             nationality = country.name;
-            nationalityController.text = "${country.flagEmoji} $nationality";
+            flag = country.flagEmoji;
+            nationalityController.text = "$flag $nationality";
           }),
         ),
         child: IgnorePointer(
@@ -102,6 +104,7 @@ class _Step1State extends ApplicationStepState<Step1> {
     TurpUser.mothersName = mothersNameController.text;
     TurpUser.gender = gender;
     TurpUser.country = nationality;
+    TurpUser.flag = flag;
     await auth.updateUser(
       {
         "firstName": firstNameController.text,
@@ -111,6 +114,7 @@ class _Step1State extends ApplicationStepState<Step1> {
         "mothersName": mothersNameController.text,
         "gender": gender,
         "country": nationality,
+        "flag": flag,
       },
     );
   }

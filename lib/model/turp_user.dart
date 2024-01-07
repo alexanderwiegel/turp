@@ -7,4 +7,5 @@ class TurpUser {
   static String? mothersName;
   static String? gender;
   static String? country;
+  static String? flag;
 }
