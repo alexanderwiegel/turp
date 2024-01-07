@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:turp/constants.dart';
 import 'package:turp/model/turp_user.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseDatabase database = FirebaseDatabase.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   TurpUser setUserID(User? user) {
     printInfo("Setting the user id to ${user!.uid}");
@@ -47,13 +47,9 @@ class AuthService {
   }
 
   Future updateUser(user) async {
-    printInfo(
-        "Getting a reference to the database to update the user with user id ${TurpUser.uid}");
-    DatabaseReference ref =
-        FirebaseDatabase.instance.ref("users/${TurpUser.uid}");
     try {
       printInfo("Trying to update the following data: $user");
-      await ref.set(user);
+      db.collection("users").add(user);
       printSuccess("Successfully updated the user data");
     } catch (e) {
       printError(e.toString());
