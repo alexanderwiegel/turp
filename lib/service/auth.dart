@@ -38,7 +38,7 @@ class AuthService {
       final UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       final User? user = result.user;
-      printSuccess("User: $user");
+      // printSuccess("User: $user");
       return setUserID(user);
     } catch (e) {
       printError(e.toString());
@@ -46,11 +46,37 @@ class AuthService {
     }
   }
 
-  Future updateUser(user) async {
+  Future addOrUpdateUser(TurpUser user) async {
     try {
-      printInfo("Trying to update the following data: $user");
-      db.collection("users").add(user);
+      printInfo("Trying to add or update a user.");
+      final userRef = db.collection("users").doc(TurpUser.uid).withConverter(
+            fromFirestore: TurpUser.fromFirestore,
+            toFirestore: (TurpUser turpUser, options) => turpUser.toFirestore(),
+          );
+      await userRef.set(user);
       printSuccess("Successfully updated the user data");
+    } catch (e) {
+      printError(e.toString());
+      return null;
+    }
+  }
+
+  Future getUser() async {
+    try {
+      printInfo("Trying to get user with uid ${TurpUser.uid}.");
+      final userRef = db.collection("users").doc(TurpUser.uid).withConverter(
+            fromFirestore: TurpUser.fromFirestore,
+            toFirestore: (TurpUser turpUser, options) => turpUser.toFirestore(),
+          );
+      final userSnap = await userRef.get();
+      final turpUser = userSnap.data(); // Convert to TurpUser
+      if (turpUser != null) {
+        printSuccess("Successfully got user with uid ${TurpUser.uid}.");
+        return turpUser;
+      } else {
+        printError("No data found for given user.");
+        return null;
+      }
     } catch (e) {
       printError(e.toString());
       return null;

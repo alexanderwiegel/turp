@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 class TurpDropdownButton extends StatefulWidget {
   final String labelText;
+  String? value;
   final List<String> items;
   final IconData? icon;
   final Function(dynamic) onChanged;
   final String? Function(String?)? validator;
 
-  const TurpDropdownButton({
+  TurpDropdownButton({
     Key? key,
     required this.labelText,
+    this.value,
     required this.items,
     this.icon,
     required this.onChanged,
@@ -27,6 +29,7 @@ class _TurpDropdownButtonState extends State<TurpDropdownButton> {
       alignedDropdown: true,
       child: DropdownButtonFormField(
         key: widget.key,
+        value: widget.value,
         onChanged: widget.onChanged,
         validator: widget.validator,
         items: widget.items

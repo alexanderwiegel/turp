@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turp/model/turp_user.dart';
 import 'package:turp/service/auth.dart';
 import 'package:turp/widget/turp_button.dart';
 
@@ -15,11 +16,19 @@ class ApplicationStepState<T extends ApplicationStep> extends State<T> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  late final List<Widget> fields;
+  late final List<Widget> _fields;
+  TurpUser user = TurpUser();
 
-  void setFields(List<Widget> fields) => this.fields = fields;
+  void setFields(List<Widget> fields) => this._fields = fields;
 
-  Future saveData(AuthService auth) async => throw UnimplementedError();
+  Future getUserData() async => user = await _auth.getUser();
+  Future saveUserData() async => await _auth.addOrUpdateUser(user);
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class ApplicationStepState<T extends ApplicationStep> extends State<T> {
           child: Form(
             key: _formKey,
             child: Column(children: [
-              ...fields,
+              ..._fields,
               SizedBox(
                 width: double.infinity,
                 child: TurpButton.primary(
@@ -39,7 +48,7 @@ class ApplicationStepState<T extends ApplicationStep> extends State<T> {
                   onPressed: () async {
                     _formKey.currentState!.save();
                     if (_formKey.currentState!.validate()) {
-                      await saveData(_auth);
+                      await saveUserData();
                     }
                   },
                 ),

@@ -1,6 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:turp/model/turp_user.dart';
+import 'package:turp/constants.dart';
 import 'package:turp/service/validator.dart';
 import 'package:turp/view/application/application_step.dart';
 import 'package:turp/widget/turp_dropdown_button.dart';
@@ -20,12 +20,38 @@ class _Step1State extends ApplicationStepState<Step1> {
   TextEditingController mothersNameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController nationalityController = TextEditingController();
-  late String nationality;
-  late String flag;
-  late String gender;
+  String nationality = "";
+  String flag = "";
+  String gender = "";
+  late TurpDropdownButton genderDropdownButton;
+
+  @override
+  Future<void> getUserData() async {
+    final userData = await super.getUserData();
+    if (userData != null) {
+      firstNameController.text = user.firstName!;
+      lastNameController.text = user.lastName!;
+      fathersNameController.text = user.fathersName!;
+      mothersNameController.text = user.mothersName!;
+      dateController.text = user.birthDate!;
+      nationalityController.text = "${user.flag} ${user.nationality}";
+      printWarning(genderDropdownButton.value);
+      // TODO: make sure dropdown value is actually set to the saved gender
+      genderDropdownButton.value = user.gender;
+      printWarning(genderDropdownButton.value);
+    }
+  }
 
   @override
   void initState() {
+    genderDropdownButton = TurpDropdownButton(
+      labelText: "Gender",
+      items: const ["Female", "Male", "Diverse"],
+      onChanged: (value) => gender = value,
+      validator: GenderValidator.validate,
+    );
+    printWarning(
+        "After initialization in initState(), the value of the dropdown button is ${genderDropdownButton.value}");
     setFields(getFields());
     super.initState();
   }
@@ -67,12 +93,7 @@ class _Step1State extends ApplicationStepState<Step1> {
         validator: NameValidator.validate,
       ),
       const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-      TurpDropdownButton(
-        labelText: "Gender",
-        items: const ["Female", "Male", "Diverse"],
-        onChanged: (value) => gender = value,
-        validator: GenderValidator.validate,
-      ),
+      genderDropdownButton,
       const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
       InkWell(
         onTap: () => showCountryPicker(
@@ -96,26 +117,15 @@ class _Step1State extends ApplicationStepState<Step1> {
   }
 
   @override
-  Future saveData(auth) async {
-    TurpUser.firstName = firstNameController.text;
-    TurpUser.lastName = lastNameController.text;
-    TurpUser.birthdate = dateController.text;
-    TurpUser.fathersName = fathersNameController.text;
-    TurpUser.mothersName = mothersNameController.text;
-    TurpUser.gender = gender;
-    TurpUser.country = nationality;
-    TurpUser.flag = flag;
-    await auth.updateUser(
-      {
-        "firstName": firstNameController.text,
-        "lastName": lastNameController.text,
-        "birthdate": dateController.text,
-        "fathersName": fathersNameController.text,
-        "mothersName": mothersNameController.text,
-        "gender": gender,
-        "country": nationality,
-        "flag": flag,
-      },
-    );
+  Future saveUserData() async {
+    user.firstName = firstNameController.text;
+    user.lastName = lastNameController.text;
+    user.birthDate = dateController.text;
+    user.fathersName = fathersNameController.text;
+    user.mothersName = mothersNameController.text;
+    user.gender = gender;
+    user.nationality = nationality;
+    user.flag = flag;
+    super.saveUserData();
   }
 }
