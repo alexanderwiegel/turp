@@ -35,6 +35,8 @@ class _Step1State extends ApplicationStepState<Step1> {
       mothersNameController.text = user.mothersName!;
       dateController.text = user.birthDate!;
       nationalityController.text = "${user.flag} ${user.nationality}";
+      nationality = user.nationality!;
+      flag = user.flag!;
       printWarning(genderDropdownButton.value);
       // TODO: make sure dropdown value is actually set to the saved gender
       genderDropdownButton.value = user.gender;
