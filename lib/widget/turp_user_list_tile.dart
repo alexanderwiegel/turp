@@ -13,7 +13,9 @@ class TurpUserListTile extends StatelessWidget {
     return ListTile(
       leading: Text(data["flag"], style: const TextStyle(fontSize: 32)),
       title: Text(data["firstName"] + " " + data["lastName"]),
-      subtitle: Text(data["birthDate"]),
+      subtitle: Text(
+        "born: ${data["birthDate"]},\ngender: ${data["gender"]},\nnationality: ${data["nationality"]},\nfather: ${data["fathersName"]},\nmother: ${data["mothersName"]},\n",
+      ),
     );
   }
 }
