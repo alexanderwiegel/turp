@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:turp/view/application/step1.dart';
+import 'package:turp/view/auth/login/login_screen.dart';
 
 import 'constants.dart';
 import 'firebase_options.dart';
@@ -22,6 +22,6 @@ class MyApp extends StatelessWidget {
         title: 'Turkish Residence Permit',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: mainColor),
-        home: const Step1());
+        home: const LoginScreen());
   }
 }
